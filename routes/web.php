@@ -14,5 +14,60 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
+});
+
+Auth::routes();
+
+Route::middleware(['auth'])->group(function ()
+{
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::group(['prefix' => 'users'], function(){
+        Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USERS_VIEW);
+        Route::get('/view/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.details')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USERS_VIEW);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\UserController::class,'add'])->name('user.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USER_ADD);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\UserController::class,'edit'])->name('user.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USER_EDIT);
+        Route::delete('/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USER_DELETE);
+    });
+
+    Route::prefix('/roles')->group(function () {
+        Route::get('/', [\App\Http\Controllers\RoleController::class,'index'])->name('role')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_ROLES_VIEW);
+        Route::match(['get', 'post'], '/add', [\App\Http\Controllers\RoleController::class,'add'])->name('role.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_ROLE_ADD);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\RoleController::class,'edit'])->name('role.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_ROLE_EDIT);
+        Route::post('/delete', [\App\Http\Controllers\RoleController::class,'deleteRole'])->name('role.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_ROLE_DELETE);
+    });
+
+    Route::group(['prefix' => 'doctors'], function(){
+        Route::get('/', [App\Http\Controllers\DoctorController::class, 'index'])->name('doctor')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTORS_VIEW);
+        Route::get('/view/{id}', [App\Http\Controllers\DoctorController::class, 'show'])->name('doctor.details')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTORS_VIEW);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\DoctorController::class,'add'])->name('doctor.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_ADD);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\DoctorController::class,'edit'])->name('doctor.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_EDIT);
+        Route::delete('/delete', [App\Http\Controllers\DoctorController::class, 'delete'])->name('doctor.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_DELETE);
+    });
+
+    Route::group(['prefix' => 'chats'], function(){
+        Route::get('/', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');
+    });
+
+    Route::group(['prefix' => 'videos'], function(){
+        Route::get('/', [App\Http\Controllers\VideoController::class, 'index'])->name('video')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_VIDEOS_VIEW);
+        Route::get('/view/{id}', [App\Http\Controllers\VideoController::class, 'show'])->name('video.details')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_VIDEOS_VIEW);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\VideoController::class,'edit'])->name('video.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_VIDEO_EDIT);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\VideoController::class,'add'])->name('video.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_VIDEO_ADD);
+        Route::delete('/delete', [App\Http\Controllers\VideoController::class, 'delete'])->name('video.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_VIDEO_DELETE);
+    });
+
+    Route::group(['prefix' => 'categories'], function(){
+        Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('category')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\CategoryController::class,'edit'])->name('category.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_EDIT);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CategoryController::class,'add'])->name('category.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_ADD);
+        Route::delete('/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_DELETE);
+    });
+
+    Route::group(['prefix' => 'comments'], function(){
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CommentController::class,'add'])->name('comment.create');
+        Route::post('/reply', [\App\Http\Controllers\CommentController::class,'reply'])->name('comment.reply');
+        Route::delete('/delete', [App\Http\Controllers\CommentController::class, 'delete'])->name('comment.delete');
+    });
 });
