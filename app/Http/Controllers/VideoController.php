@@ -20,8 +20,9 @@ class VideoController extends Controller
     public function show(Request $request, $id)
     {
         $video = Video::find($id);
+        $recent = Video::where('id','<>',$id)->orderBy('id', 'DESC')->limit(2)->get();
         $comments = Comment::with('replies')->where('video_id', $id)->where('parent_comment_id',null)->get();
-        return view('pages.videos.view', compact('video','comments'));
+        return view('pages.videos.view', compact('video','comments','recent'));
     }
 
     public function add(Request $request)

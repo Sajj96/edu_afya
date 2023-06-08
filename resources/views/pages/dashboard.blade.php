@@ -32,37 +32,39 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <img src="assets/img/icons/profile-add.svg" alt="">
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Doctors</h4>
-                        <h2><span class="counter-up">{{ $doctors }}</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <img src="assets/img/icons/menu-icon-03.svg" alt="">
-                    </div>
-                    <div class="dash-content dash-count">
-                        <h4>Users</h4>
-                        <h2><span class="counter-up">{{ $users }}</span></h2>
+        <div class="doctor-list-blk">
+            <div class="row">
+                <div class="col-xl-4 col-md-6">
+                    <div class="doctor-widget border-right-bg">
+                        <div class="doctor-box-icon flex-shrink-0">
+                            <img src="assets/img/icons/doctor-dash-02.svg" alt="">
+                        </div>
+                        <div class="doctor-content dash-count flex-grow-1">
+                            <h4><span class="counter-up">{{ $doctors }}</span><span></span></h4>
+                            <h5>Doctors</h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <i class="feather-video"></i>
+                <div class="col-xl-4 col-md-6">
+                    <div class="doctor-widget border-right-bg">
+                        <div class="doctor-box-icon flex-shrink-0">
+                            <i class="feather-users feather-32 text-white"></i>
+                        </div>
+                        <div class="doctor-content dash-count flex-grow-1">
+                            <h4><span class="counter-up">{{ $users }}</span><span></span></h4>
+                            <h5>Users</h5>
+                        </div>
                     </div>
-                    <div class="dash-content dash-count">
-                        <h4>Videos</h4>
-                        <h2><span class="counter-up">{{ $videos }}</span></h2>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="doctor-widget border-right-bg">
+                        <div class="doctor-box-icon flex-shrink-0">
+                            <i class="feather-video feather-32 text-white"></i>
+                        </div>
+                        <div class="doctor-content dash-count flex-grow-1">
+                            <h4><span class="counter-up">{{ $videos }}</span><span></span></h4>
+                            <h5>Videos</h5>
+                        </div>
                     </div>
                 </div>
             </div>
