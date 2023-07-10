@@ -11,7 +11,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Categories</li>
+                        <li class="breadcrumb-item active">Video Categories</li>
                     </ul>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Categories List</h3>
+                                        <h3>Video Categories List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="add-group">
-                                                <a href="{{ route('category.create') }}" class="btn btn-primary add-pluss ms-2"><img src="{{ asset('assets/img/icons/plus.svg')}}" alt=""></a>
+                                                <a href="{{ route('video.category.create') }}" class="btn btn-primary add-pluss ms-2"><img src="{{ asset('assets/img/icons/plus.svg')}}" alt=""></a>
                                             </div>
                                         </div>
                                     </div>
@@ -64,17 +64,18 @@
                                             <div class="dropdown dropdown-action">
                                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="{{ route('category.edit', $category->id)}}"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+                                                    <a class="dropdown-item" href="{{ route('video.category.edit', $category->id)}}"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient{{ $category->id }}"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
-                                                <div id="delete_patient" class="modal fade delete-modal" role="dialog">
+                                                <div id="delete_patient{{ $category->id }}" class="modal fade delete-modal" role="dialog">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
                                                             <div class="modal-body text-center">
                                                                 <img src="{{ asset('assets/img/sent.png')}}" alt="" width="50" height="46">
                                                                 <h3>Are you sure want to delete this ?</h3>
-                                                                <form id="delete-form-{{ $category->id }}" action="{{ route('category.delete') }}" method="POST">
-                                                                    {{ csrf_field() }}
+                                                                <form id="delete-form-{{ $category->id }}" action="{{ route('video.category.delete') }}" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
                                                                     <input type="hidden" name="category_id" value="{{ $category->id }}">
                                                                     <div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
                                                                         <button type="submit" class="btn btn-danger">Delete</button>

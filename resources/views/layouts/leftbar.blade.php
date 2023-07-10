@@ -9,9 +9,15 @@
                 </li>
                 @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_DOCTORS_VIEW))
                 <li class="submenu">
-                    <a href="{{ route('doctor') }}"><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-02.svg') }}" alt=""></span>
-                        <span>Doctors </span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-02.svg') }}" alt=""></span> <span>Doctors</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
+                        <li class="submenu">
+                            <a href="javascript:void(0);"><span>Categories</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a @if(\Request::is('doctor-categories') ) class="active" @endif href="{{ route('doctor.category') }}"><span>Categories List</span></a></li>
+                                <li><a @if(\Request::is('doctor-categories/create') ) class="active" @endif href="{{ route('doctor.category.create') }}"><span>Add Category</span></a></li>
+                            </ul>
+                        </li>
                         <li><a @if(\Request::is('doctors') ) class="active" @endif href="{{ route('doctor') }}">Doctors List</a></li>
                         <li><a @if(\Request::is('doctors/*') ) class="active" @endif href="{{ route('doctor.create') }}">Add Doctor</a></li>
                     </ul>
@@ -47,30 +53,28 @@
                     <a href="{{ route('chat') }}" @if(\Request::is('chats') || \Request::is('chats/*') ) class="active" @endif><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-10.svg') }}" alt=""></span> <span>Chats</span></a>
                 </li>
                 <li>
-                    <a href="#" @if(\Request::is('subscriptions') || \Request::is('subscriptions/*') ) class="active" @endif><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-09.svg') }}" alt=""></span> <span>
-                            Subscriptions </span></a>
+                    <a href="{{ route('transaction') }}" @if(\Request::is('transactions') || \Request::is('transactions/*') ) class="active" @endif><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-09.svg') }}" alt=""></span> <span>
+                            Transactions </span></a>
                 </li>
-                @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_CATEGORY_ADD) ||
-                auth()->user()->can(\App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW))
-                <li class="submenu">
-                    <a href="#"><span class="menu-side"><i class="feather-layers"></i></span> <span>
-                            Video Categories</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        @can(\App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW)
-                        <li><a @if(\Request::is('categories') ) class="active" @endif href="{{ route('category') }}">Categories List</a></li>
-                        @endcan
-                        @can(\App\Models\PermissionSet::PERMISSION_CATEGORY_ADD)
-                        <li><a @if(\Request::is('categories/*') ) class="active" @endif href="{{ route('category.create') }}">Add Category</a></li>
-                        @endcan
-                    </ul>
-                </li>
-                @endif
                 @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_ROLE_ADD) ||
                 auth()->user()->can(\App\Models\PermissionSet::PERMISSION_ROLES_VIEW))
                 <li class="submenu">
-                    <a href="#"><span class="menu-side"><i class="feather-video"></i></span> <span>
-                            Videos</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><i class="feather-video"></i> <span>Videos</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
+                        @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_CATEGORY_ADD) ||
+                        auth()->user()->can(\App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW))
+                        <li class="submenu">
+                            <a href="javascript:void(0);"><span>Categories</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                @can(\App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW)
+                                <li><a @if(\Request::is('video-categories') ) class="active" @endif href="{{ route('video.category') }}">Categories List</a></li>
+                                @endcan
+                                @can(\App\Models\PermissionSet::PERMISSION_CATEGORY_ADD)
+                                <li><a @if(\Request::is('video-categories/create') ) class="active" @endif href="{{ route('video.category.create') }}">Add Category</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @endif
                         @can(\App\Models\PermissionSet::PERMISSION_VIDEOS_VIEW)
                         <li><a @if(\Request::is('videos') ) class="active" @endif href="{{ route('video') }}">Videos List</a></li>
                         @endcan
@@ -80,20 +84,20 @@
                     </ul>
                 </li>
                 @endif
-                @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_REPORT_ADD) ||
-                auth()->user()->can(\App\Models\PermissionSet::PERMISSION_REPORTS_VIEW))
                 <li class="submenu">
-                    <a href="#"><i class="fa fa-flag"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
+                    <a href="#"><span class="menu-side"><i class="feather-image"></i></span>
+                        <span>Banners </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        @can(\App\Models\PermissionSet::PERMISSION_REPORTS_VIEW)
-                        <li><a href="expense-reports.html"> Expense Report </a></li>
-                        @endcan
-                        @can(\App\Models\PermissionSet::PERMISSION_REPORT_ADD)
-                        <li><a href="invoice-reports.html"> Invoice Report </a></li>
-                        @endcan
+                        <li><a @if(\Request::is('banners') ) class="active" @endif href="{{ route('banner') }}">Banners List</a></li>
+                        <li><a @if(\Request::is('banners/*') ) class="active" @endif href="{{ route('banner.create') }}">Add Banner</a></li>
                     </ul>
                 </li>
-                @endif
+                <!-- @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_REPORT_ADD) ||
+                auth()->user()->can(\App\Models\PermissionSet::PERMISSION_REPORTS_VIEW))
+                <li>
+                    <a href="{{ route('report') }}"><i class="fa fa-flag"></i> <span> Reports </span> </a>
+                </li>
+                @endif -->
             </ul>
             <div class="logout-btn">
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span class="menu-side"><img src="{{ asset('assets/img/icons/logout.svg') }}" alt=""></span>

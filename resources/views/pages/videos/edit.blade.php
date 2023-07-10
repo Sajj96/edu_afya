@@ -15,7 +15,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="blog.html">Videos </a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Add Video</li>
+                        <li class="breadcrumb-item active">Edit Video</li>
                     </ul>
                 </div>
             </div>
@@ -72,9 +72,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label>Link <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" value="{{ $video->image_url }}" placeholder="" name="video">
+                                    <div class="form-group local-top-form">
+                                        <label class="local-top">Poster Image </label>
+                                        <input class="form-control" type="file" accept="image/*" name="poster">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">

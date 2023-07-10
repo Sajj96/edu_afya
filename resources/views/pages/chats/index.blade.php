@@ -85,7 +85,7 @@
                 @endif
                 <div class="card chat-message-box">
                     <div class="card-body p-0">
-                        <div class="chat-body slimscroll">
+                        <div class="chat-body" id="msg_list">
                             @forelse($conversations as $key=>$msg)
                             <ul class="list-unstyled chat-message">
                                 @if($msg['receiverID'] == $msg['client'])

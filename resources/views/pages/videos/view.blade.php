@@ -8,7 +8,6 @@
 @section('content')
 <div class="page-wrapper">
     <div class="content">
-
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -40,7 +39,7 @@
                                     <div class="meeting-list">
                                         <div class="join-contents horizontal-view fade-whiteboard">
                                             <div class="join-video user-active">
-                                                <img src="{{ $video->image_url }}" class="img-fluid call-imgs" alt="Logo">
+                                                <img src="{{ $video->image_url }}" width="760" height="350" class="img-fluid call-imgs" alt="Logo">
                                                 <div class="part-name">
                                                     <h4><a class="popup-vimeo text-white" href="https://vimeo.com/{{ $video->video_link_id}}"><i class="feather-play-circle"></i> Play</a></h4>
                                                 </div>
@@ -71,77 +70,108 @@
                     </article>
                     <div class="widget blog-comments clearfix">
                         <h3>Comments</h3>
-                        <ul class="comments-list slimscroll">
-                            @foreach($comments as $key=>$comment)
-                            <li class="list">
-                                <div class="comment">
-                                    <div class="comment-author">
-                                        <a href="#"><img class="avatar" alt="" src="{{ asset('assets/img/user.jpg')}}"></a>
-                                    </div>
-                                    <div class="comment-block">
-                                        <div class="comment-by">
-                                            <div class="week-group">
-                                                <h5 class="blog-author-name">{{ $comment->user_name }}</h5>
-                                                <span class="week-list">{{ Carbon::createFromFormat('Y-m-d H:i:s', $comment->createddate)->diffForHumans() }}</span>
-                                                <a href="#" class="dropdown-toggle " data-bs-toggle="dropdown">
-                                                    <span><i class="feather-message-square"></i> {{ count($comment->replies) }} replies</span></a>
-                                                <div class="dropdown-menu notifications">
-                                                    <div class="topnav-dropdown-header">
-                                                        <span>Replies</span>
-                                                    </div>
-                                                    <div class="drop-scroll">
-                                                        <ul class="notification-list">
-                                                            @foreach($comment->replies as $reply)
-                                                            <li class="notification-message">
-                                                                <a href="#">
-                                                                    <div class="media">
-                                                                        <span class="avatar">
-                                                                            <img alt="{{ $reply->user_name }}" src="{{ asset('assets/img/user.jpg')}}" class="img-fluid">
-                                                                        </span>
-                                                                        <div class="media-body">
-                                                                            <p class="noti-details"><span class="noti-title">{{ $reply->user_name }}</span> <span class="week-list">{{ Carbon::createFromFormat('Y-m-d H:i:s', $reply->createddate)->diffForHumans() }}</span></p>
-                                                                            <p>{{ $reply->comment }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            @endforeach
-                                                        </ul>
+                        <div class="drop-scroll msg-list-scroll" id="msg_list">
+                            <ul class="list-box">
+                                @forelse($comments as $key=>$comment)
+                                <li>
+                                    <div class="list-item">
+                                        <div class="comment-block">
+                                            <div class="comment-by">
+                                                <div class="week-group">
+                                                    <div class="d-flex">
+                                                        <a href="#"><img class="avatar" alt="" src="{{ asset('assets/img/user.jpg')}}"></a>
+                                                        <div>
+                                                            <h5 class="blog-author-name mt-2">{{ $comment->user_name }}</h5>
+                                                            <span class="week-list">{{ Carbon::createFromFormat('Y-m-d H:i:s', $comment->createddate)->diffForHumans() }}</span>
+                                                            <a href="#" class="dropdown-toggle " data-bs-toggle="dropdown"><i class="feather-message-square"></i> {{ count($comment->replies) }} replies</a>
+                                                            <div class="dropdown-menu notifications">
+                                                                <div class="topnav-dropdown-header">
+                                                                    <span>Replies</span>
+                                                                </div>
+                                                                <div class="drop-scroll msg-list-scroll">
+                                                                    <ul class="list-box">
+                                                                        @forelse($comment->replies as $reply)
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <div class="list-item">
+                                                                                    <div class="list-left">
+                                                                                        <span class="avatar"><img alt="{{ $reply->user_name }}" src="{{ asset('assets/img/user.jpg')}}" class="img-fluid"></span>
+                                                                                    </div>
+                                                                                    <div class="list-body">
+                                                                                        <span class="message-author">{{ $reply->user_name }}</span>
+                                                                                        <a class="message-time text-danger" href="#." data-bs-toggle="modal" data-bs-target="#delete_modal{{ $reply->id }}"><i class="fa fa-trash"></i> Delete</a>
+                                                                                        <div class="clearfix"></div>
+                                                                                        <span class="message-content">{{ $reply->comment }}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+                                                                        @empty
+                                                                        <li><a href="#" class="text-center mt-5">No Replies</a></li>
+                                                                        @endforelse
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <span class="float-end">
-                                                <span class="blog-reply"><a href="#." data-bs-toggle="modal" data-bs-target="#reply_modal{{ $comment->id }}"><i class="fa fa-reply"></i> Reply</a></span>
-                                            </span>
-                                            <div id="reply_modal{{ $comment->id }}" class="modal fade delete-modal" role="dialog">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body text-center">
-                                                            <form action="{{ route('comment.reply') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="parent_comment_id" value="{{ $comment->id }}" id="">
-                                                                <input type="hidden" name="video_id" value="{{ $video->id }}" id="">
-                                                                <div class="col-12 col-sm-12">
-                                                                    <div class="form-group local-forms">
-                                                                        <label>Reply <span class="login-danger">*</span></label>
-                                                                        <textarea class="form-control" rows="3" name="comment" cols="30"></textarea>
+                                                <span class="float-end">
+                                                    <span class="blog-reply"><a href="#." class="text-info" data-bs-toggle="modal" data-bs-target="#reply_modal{{ $comment->id }}"><i class="fa fa-reply"></i> Reply</a></span>
+                                                    <span class="blog-reply"><a href="#." data-bs-toggle="modal" data-bs-target="#delete_modal{{ $comment->id }}"><i class="fa fa-trash"></i> Delete</a></span>
+                                                </span>
+                                                <div id="reply_modal{{ $comment->id }}" class="modal custom-modal fade" role="dialog">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body text-center">
+                                                                <form action="{{ route('comment.reply') }}" method="post">
+                                                                    @csrf
+                                                                    <input type="hidden" name="parent_comment_id" value="{{ $comment->id }}" id="">
+                                                                    <input type="hidden" name="video_id" value="{{ $video->id }}" id="">
+                                                                    <div class="col-12 col-sm-12">
+                                                                        <div class="form-group local-forms">
+                                                                            <label>Reply <span class="login-danger">*</span></label>
+                                                                            <textarea class="form-control" rows="3" name="comment" cols="30"></textarea>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
-                                                                    <button type="submit" class="btn btn-danger">Reply</button>
-                                                                </div>
-                                                            </form>
+                                                                    <div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+                                                                        <button type="submit" class="btn btn-danger">Reply</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="delete_modal{{ $comment->id }}" class="modal custom-modal fade" role="dialog">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body text-center">
+                                                                <img src="{{ asset('assets/img/sent.png')}}" alt="" width="50" height="46">
+                                                                <h3>Are you sure want to delete this ?</h3>
+                                                                <form action="{{ route('comment.delete') }}" method="post">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <input type="hidden" name="comment_id" value="{{ $comment->id }}" id="">
+                                                                    <input type="hidden" name="video_id" value="{{ $video->id }}" id="">
+                                                                    <div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <h6>{{ $comment->comment }}</h6>
                                         </div>
-                                        <p>{{ $comment->comment }}</p>
                                     </div>
-                                </div>
-                            </li>
-                            @endforeach
-                        </ul>
+                                </li>
+                                @empty
+                                <li>
+                                    <h4 class="text-secondary text-center">No Comment</h4>
+                                </li>
+                                @endforelse
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,22 +181,22 @@
                         <h5>Recent Videos</h5>
                     </div>
                     <ul class="latest-posts">
-                        @foreach($recent as $key=>$video)
+                        @foreach($recent as $key=>$recent_video)
                         <li>
                             <div class="post-thumb">
-                                <a href="{{ route('video.details', $video->id)}}">
-                                    <img class="img-fluid" src="{{ $video->image_url }}" alt="">
+                                <a href="{{ route('video.details', $recent_video->id)}}">
+                                    <img class="img-fluid" src="{{ $recent_video->image_url }}" alt="">
                                 </a>
                             </div>
                             <div class="post-info">
                                 <div class="date-posts">
-                                    <h5>{{ $video->name }}</h5>
-                                    <span class="ms-2">{{ date('d F Y',strtotime($video->created_at)) }}</span>
+                                    <h5>{{ $recent_video->name }}</h5>
+                                    <span class="ms-2">{{ date('d F Y',strtotime($recent_video->created_at)) }}</span>
                                 </div>
                                 <h4>
-                                    <a href="{{ route('video.details', $video->id)}}">{{ str_pad($video->description,0,20) }}...</a>
+                                    <a href="{{ route('video.details', $recent_video->id)}}">{{ str_pad($recent_video->description,0,20) }}...</a>
                                 </h4>
-                                <a href="{{ route('video.details', $video->id)}}"> View <i class="fa fa-long-arrow-right ms-2"></i></a>
+                                <a href="{{ route('video.details', $recent_video->id)}}"> View <i class="fa fa-long-arrow-right ms-2"></i></a>
                             </div>
                         </li>
                         @endforeach
@@ -190,7 +220,7 @@
                                     <label>Phone<span class="login-danger">*</span></label>
                                     <input class="form-control" type="text" name="phone" value="{{ Auth::user()->phonenumber }}" placeholder="Enter phone">
                                     <input class="form-control" type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                    <input class="form-control" type="hidden" name="video_id" value="{{ $video->id }}">
+                                    <input class="form-control" type="hidden" name="video_id" value="{{ $video->name }}">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12">
@@ -216,15 +246,15 @@
 <script>
     $(document).ready(function() {
         $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
-          disableOn: 700,
-          type: 'iframe',
-          mainClass: 'mfp-fade',
-          removalDelay: 160,
-          preloader: false,
+            disableOn: 700,
+            type: 'iframe',
+            mainClass: 'mfp-fade',
+            removalDelay: 160,
+            preloader: false,
 
-          fixedContentPos: false
+            fixedContentPos: false
         });
-      });
+    });
 </script>
 @endsection
 @endsection

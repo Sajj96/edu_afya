@@ -43,7 +43,6 @@
                                         <th>SN</th>
                                         <th>Name</th>
                                         <th>Category</th>
-                                        <th>Link</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -52,14 +51,13 @@
                                     @foreach($videos as $key=>$video)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $video->name }}</td>
+                                        <td><a href="{{ route('video.details',$video->id) }}">{{ $video->name }}</a></td>
                                         <td>{{ $video->category }}</td>
-                                        <td><a href="{{ $video->image_url }}">{{ $video->name }}</a></td>
                                         <td>
                                             @if($video->status == 0)
                                             <span class="custom-badge status-orange">Pending</span>
                                             @else
-                                            <span class="badge bg-success-light">Published</span>
+                                            <span class="custom-badge status-green">Published</span>
                                             @endif
                                         </td>
                                         <td class="text-end">
@@ -77,7 +75,8 @@
                                                                 <img src="{{ asset('assets/img/sent.png')}}" alt="" width="50" height="46">
                                                                 <h3>Are you sure want to delete this ?</h3>
                                                                 <form id="delete-form-{{ $video->id }}" action="{{ route('video.delete') }}" method="POST">
-                                                                    {{ csrf_field() }}
+                                                                    @csrf
+                                                                    @method('DELETE')
                                                                     <input type="hidden" name="video_id" value="{{ $video->id }}">
                                                                     <div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
                                                                         <button type="submit" class="btn btn-danger">Delete</button>

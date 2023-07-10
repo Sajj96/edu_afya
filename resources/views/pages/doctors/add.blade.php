@@ -68,6 +68,23 @@
                                         <input class="form-control" type="text" name="profession" placeholder="" value="{{ old('profession') }}" required>
                                     </div>
                                 </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Category <span class="login-danger">*</span></label>
+                                        <select class="form-control select" name="category">
+                                            <option value="">{{ __('Please select')}}</option>
+                                            @foreach($categories as $key=>$category)
+                                            <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Consultation Fee <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="number" name="fee" placeholder="" value="{{ old('fee') }}" required>
+                                    </div>
+                                </div>
                                 <div class="col-12 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label>Start Biography <span class="login-danger">*</span></label>
@@ -76,7 +93,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-top-form">
-                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
+                                        <label class="local-top">Photo <span class="login-danger">*</span></label>
                                         <input class="form-control" type="file" accept="image/*" name="image">
                                     </div>
                                 </div>

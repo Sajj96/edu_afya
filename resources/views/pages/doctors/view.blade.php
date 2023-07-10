@@ -35,7 +35,7 @@
                                         <img src="{{ asset('assets/img/profile-banner.png')}}" alt="Profile">
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4">
+                                        <div class="col-lg-12 col-md-12">
                                             <div class="profile-user-box">
                                                 <div class="profile-user-img">
                                                     <img src="{{ $doctor->image_url }}" alt="Profile">
@@ -51,15 +51,6 @@
                                                     <h4>{{ ucwords($doctor->name) }}</h4>
                                                     <h5>{{ ucfirst($doctor->profession) }}</h5>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 d-flex align-items-center">
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 d-flex align-items-center">
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 d-flex align-items-center">
-                                            <div class="follow-btn-group">
-                                                <button type="submit" class="btn btn-info message-btns">Message</button>
                                             </div>
                                         </div>
                                     </div>

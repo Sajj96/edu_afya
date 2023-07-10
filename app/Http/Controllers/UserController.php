@@ -108,11 +108,11 @@ class UserController extends Controller
             $user->update();
             
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage(), $request);
+            Log::error($exception->getMessage());
             return back()->withError('Could not Update the selected user');
         }
 
-        Log::info("Updated a user record", $request);
+        Log::info("Updated a user record");
         return redirect('/users')->withSuccess('The user is updated successfully');
     }
 
@@ -134,13 +134,13 @@ class UserController extends Controller
 
             $user->password = Hash::make($request->password);
             $user->save();
-            Log::info("Changed password", $request);
+            Log::info("Changed password");
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage(), $request);
+            Log::error($exception->getMessage());
             return back()->withError('Password change failed');
         }
 
-        Log::info("Updated a user record", $request);
+        Log::info("Updated a user record");
         return redirect('/dashboard')->withSuccess('Password updated successfully');
     }
 

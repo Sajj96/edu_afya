@@ -18,6 +18,18 @@ class Comment extends Model
         return $this->belongsTo(self::class, 'parent_comment_id', 'id');
     }
 
+    protected static function boot() 
+    {
+      parent::boot();
+
+      static::deleting(function($comments) {
+        foreach ($comments->replies()->get() as $replies) {
+            $replies->delete();
+        }
+
+      });
+    }
+
     public function replies()
     {
         return $this->hasMany(self::class, 'parent_comment_id', 'id');

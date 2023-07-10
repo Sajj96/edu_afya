@@ -74,13 +74,13 @@ class CommentController extends Controller
     public function delete(Request $request)
     {
         try {
-            $comment = Comment::find($request->comment_id);
+            $comment = Comment::where('id',$request->comment_id)->where('video_id', $request->video_id)->first();
             Log::info($comment);
             if($comment->delete()) {
-                return redirect()->route('comment')->with('success','Video comment deleted successfully!');
+                return redirect()->route('video.details', $request->video_id)->with('success','Video comment deleted successfully!');
             }
         } catch (\Exception $th) {
-            return redirect()->route('comment')->with('error','Video comment was not deleted');
+            return redirect()->route('video.details', $request->video_id)->with('error','Video comment was not deleted');
         }
     }
 }

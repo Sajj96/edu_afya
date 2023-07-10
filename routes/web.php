@@ -41,8 +41,9 @@ Route::middleware(['auth'])->group(function ()
     Route::group(['prefix' => 'doctors'], function(){
         Route::get('/', [App\Http\Controllers\DoctorController::class, 'index'])->name('doctor')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTORS_VIEW);
         Route::get('/view/{id}', [App\Http\Controllers\DoctorController::class, 'show'])->name('doctor.details')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTORS_VIEW);
+        Route::get('/edit/{id?}', [\App\Http\Controllers\DoctorController::class,'edit'])->name('doctor.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_EDIT);
         Route::match(['get', 'post'], '/create', [\App\Http\Controllers\DoctorController::class,'add'])->name('doctor.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_ADD);
-        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\DoctorController::class,'edit'])->name('doctor.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_EDIT);
+        Route::post('/update', [\App\Http\Controllers\DoctorController::class,'update'])->name('doctor.update')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_EDIT);
         Route::delete('/delete', [App\Http\Controllers\DoctorController::class, 'delete'])->name('doctor.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_DELETE);
     });
 
@@ -58,16 +59,37 @@ Route::middleware(['auth'])->group(function ()
         Route::delete('/delete', [App\Http\Controllers\VideoController::class, 'delete'])->name('video.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_VIDEO_DELETE);
     });
 
-    Route::group(['prefix' => 'categories'], function(){
-        Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('category')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW);
-        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\CategoryController::class,'edit'])->name('category.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_EDIT);
-        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CategoryController::class,'add'])->name('category.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_ADD);
-        Route::delete('/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_DELETE);
+    Route::group(['prefix' => 'video-categories'], function(){
+        Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('video.category')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORIES_VIEW);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\CategoryController::class,'edit'])->name('video.category.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_EDIT);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CategoryController::class,'add'])->name('video.category.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_ADD);
+        Route::delete('/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('video.category.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_CATEGORY_DELETE);
+    });
+
+    Route::group(['prefix' => 'doctor-categories'], function(){
+        Route::get('/', [App\Http\Controllers\DoctorCategoryController::class, 'index'])->name('doctor.category');
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\DoctorCategoryController::class,'edit'])->name('doctor.category.edit');
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\DoctorCategoryController::class,'add'])->name('doctor.category.create');
+        Route::delete('/delete', [App\Http\Controllers\DoctorCategoryController::class, 'delete'])->name('doctor.category.delete');
     });
 
     Route::group(['prefix' => 'comments'], function(){
         Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CommentController::class,'add'])->name('comment.create');
         Route::post('/reply', [\App\Http\Controllers\CommentController::class,'reply'])->name('comment.reply');
         Route::delete('/delete', [App\Http\Controllers\CommentController::class, 'delete'])->name('comment.delete');
+    });
+
+    Route::group(['prefix' => 'transactions'], function(){
+        Route::get('/', [App\Http\Controllers\TransactionController::class, 'index'])->name('transaction');
+    });
+
+    Route::group(['prefix' => 'reports'], function(){
+        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report');
+    });
+
+    Route::group(['prefix' => 'banners'], function(){
+        Route::get('/', [App\Http\Controllers\VideoSliderController::class, 'index'])->name('banner');
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\VideoSliderController::class,'create'])->name('banner.create');
+        Route::delete('/delete', [App\Http\Controllers\VideoSliderController::class, 'delete'])->name('banner.delete');
     });
 });

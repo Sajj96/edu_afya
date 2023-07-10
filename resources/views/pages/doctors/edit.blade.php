@@ -14,7 +14,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('doctor') }}">Doctors </a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Add Doctor</li>
+                        <li class="breadcrumb-item active">Edit Doctor</li>
                     </ul>
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('doctor.create')}}" method="post">
+                        <form action="{{ route('doctor.update')}}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -35,48 +35,54 @@
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" name="name" placeholder="" required value="{{ old('name') }}">
+                                        <input class="form-control" type="text" name="name" placeholder="" required value="{{ $doctor->name }}">
+                                        <input class="form-control" type="hidden" name="id" value="{{ $doctor->id }}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Email <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email" name="email" placeholder="" value="{{ old('email') }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label>Password <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="password" name="password" placeholder="" required>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label>Confirm Password <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="password" name="password_confirmation" placeholder="" required>
+                                        <input class="form-control" type="email" name="email" placeholder="" value="{{ $doctor->email }}" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Hospital <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" name="hospital" placeholder="">
+                                        <input class="form-control" type="text" name="hospital" placeholder="" value="{{ $doctor->hospital }}" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Profession <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" name="profession" placeholder="" value="{{ old('profession') }}" required>
+                                        <input class="form-control" type="text" name="profession" placeholder="" value="{{ $doctor->profession }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Category <span class="login-danger">*</span></label>
+                                        <select class="form-control select" name="category">
+                                            <option value="">{{ __('Please select')}}</option>
+                                            @foreach($categories as $key=>$category)
+                                            <option {{ $doctor->category == $category->name ? 'selected' : '' }} value="{{ $category->name }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Consultation Fee <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="number" name="fee" placeholder="" value="{{ $doctor->consultation_fee }}" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">
                                     <div class="form-group local-forms">
                                         <label>Start Biography <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
+                                        <textarea class="form-control" rows="3" cols="30" name="bio">{{ $doctor->bio }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-top-form">
-                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
+                                        <label class="local-top">Photo <span class="login-danger">*</span></label>
                                         <div class="settings-btn upload-files-avator">
                                             <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" class="hide-input">
                                             <label for="file" class="upload">Choose File</label>
@@ -88,12 +94,12 @@
                                         <label class="gen-label">Status <span class="login-danger">*</span></label>
                                         <div class="form-check-inline">
                                             <label class="form-check-label">
-                                                <input type="radio" name="status" value="1" class="form-check-input">Active
+                                                <input type="radio" name="status" value="1" {{ $doctor->status == 1 ? 'checked' : '' }} class="form-check-input">Active
                                             </label>
                                         </div>
                                         <div class="form-check-inline">
                                             <label class="form-check-label">
-                                                <input type="radio" name="status" value="0" class="form-check-input">In Active
+                                                <input type="radio" name="status" value="0" {{ $doctor->status == 0 ? 'checked' : '' }} class="form-check-input">In Active
                                             </label>
                                         </div>
                                     </div>

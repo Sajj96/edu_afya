@@ -89,13 +89,7 @@ class ChatController extends Controller
                 }
             }
         }
-
-        // $arr = array_merge_recursive($chats_list,$doctors_list,$clients_list);
-
-        // echo "<pre>";
-        // echo json_encode($participants);
-        // echo "</pre>";
-        // exit;
+        
         return view('pages.chats.index', compact('doctors_list','clients_list','conversations','participants'));
     }
 }

@@ -45,7 +45,7 @@
                         <div class="loginbox">
                             <div class="login-right">
                                 <div class="login-right-wrap">
-                                    <div class="account-logo">
+                                    <div class="account-logo text-center">
                                         <a href="{{ route('login') }}"><img src="{{ asset('assets/img/login-logo.png')}}" alt=""></a>
                                     </div>
                                     <h2>Login</h2>
