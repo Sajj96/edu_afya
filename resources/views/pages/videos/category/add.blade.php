@@ -24,7 +24,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('video.category.create')}}" method="post">
+                        <form action="{{ route('video.category.create')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -39,9 +39,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label>Image Url <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" name="image_url">
+                                    <div class="form-group local-top-form">
+                                        <label class="local-top">Image <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="file" accept="image/*" name="image" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">

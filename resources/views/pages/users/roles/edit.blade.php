@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('role.create')}}" method="post">
+                        <form action="{{ route('role.edit')}}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-12">

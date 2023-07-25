@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Image;
 
 class CategoryController extends Controller
 {
@@ -21,17 +23,50 @@ class CategoryController extends Controller
             return view('pages.videos.category.add');
         }
 
+        $this->validate($request, [
+            'name'      => 'required|string',
+            'image'   => 'required',
+            'image.*' => 'mimes:png,jpg,gif,jpeg',
+            'status'    => 'required|string'
+        ]);
+
         try {
-            $this->validate($request, [
-                'name'      => 'required|string',
-                'image_url' => 'required|string',
-                'status'    => 'required|string'
-            ]);
+
+            $path = storage_path('/app/public/video_category/');
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, $mode = 0777, true, true);
+            }
+
+            $fileLink = "";
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $fileName = $request->image->getClientOriginalName();
+                $extension = $image->extension();
+                $img = Image::make($image->getRealPath());
+                $img->resize(160, 160);
+
+                $generated = $request->name ."_". date("Ymd") . "_IMG";
+
+                if ($extension == "png") {
+                    $fileName = $generated . ".png";
+                } else if ($extension == "jpg") {
+                    $fileName = $generated . ".jpg";
+                } else if ($extension == "jpeg") {
+                    $fileName = $generated . ".jpeg";
+                } else {
+                    return redirect()->back()->with('error', "Invalid file type only png, jpeg and jpg files are allowed.");
+                }
+
+                $img->save(storage_path('/app/public/video_category/' . $fileName), 90, 'jpg');
+                $fileLink = url('storage/video_category/' . $fileName);
+            }
+
 
             $category = new Category;
             $category->name = $request->name;
             $category->status = $request->status;
-            $category->image_url = $request->image_url;
+            $category->image_url = $fileLink;
             $category->save();
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -52,16 +87,38 @@ class CategoryController extends Controller
 
         $this->validate($request, [
             'name'      => 'required|string',
-            'image_url' => 'required|string',
             'status'    => 'required|string'
         ]);
 
         try {
 
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $fileName = $request->image->getClientOriginalName();
+                $extension = $image->extension();
+                $img = Image::make($image->getRealPath());
+                $img->resize(160, 160);
+
+                $generated = $request->name ."_". date("Ymd") . "_IMG";
+
+                if ($extension == "png") {
+                    $fileName = $generated . ".png";
+                } else if ($extension == "jpg") {
+                    $fileName = $generated . ".jpg";
+                } else if ($extension == "jpeg") {
+                    $fileName = $generated . ".jpeg";
+                } else {
+                    return redirect()->back()->with('error', "Invalid file type only png, jpeg and jpg files are allowed.");
+                }
+
+                $img->save(storage_path('/app/public/video_category/' . $fileName), 90, 'jpg');
+                $fileLink = url('storage/video_category/' . $fileName);
+            }
+
             $category = Category::find($id);
             $category->name = $request->name;
             $category->status = $request->status;
-            $category->image_url = $request->image_url;
+            $category->image_url = ($request->hasFile('image')) ? $fileLink : $category->image_url;
             $category->update();
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

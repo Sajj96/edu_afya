@@ -17,6 +17,10 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/about-us', function () {
+    return view('about-us');
+});
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function ()
@@ -67,29 +71,29 @@ Route::middleware(['auth'])->group(function ()
     });
 
     Route::group(['prefix' => 'doctor-categories'], function(){
-        Route::get('/', [App\Http\Controllers\DoctorCategoryController::class, 'index'])->name('doctor.category');
-        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\DoctorCategoryController::class,'edit'])->name('doctor.category.edit');
-        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\DoctorCategoryController::class,'add'])->name('doctor.category.create');
-        Route::delete('/delete', [App\Http\Controllers\DoctorCategoryController::class, 'delete'])->name('doctor.category.delete');
+        Route::get('/', [App\Http\Controllers\DoctorCategoryController::class, 'index'])->name('doctor.category')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_CATEGORIES_VIEW);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\DoctorCategoryController::class,'edit'])->name('doctor.category.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_CATEGORY_EDIT);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\DoctorCategoryController::class,'add'])->name('doctor.category.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_CATEGORY_ADD);
+        Route::delete('/delete', [App\Http\Controllers\DoctorCategoryController::class, 'delete'])->name('doctor.category.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_DOCTOR_CATEGORY_DELETE);
     });
 
     Route::group(['prefix' => 'comments'], function(){
-        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CommentController::class,'add'])->name('comment.create');
-        Route::post('/reply', [\App\Http\Controllers\CommentController::class,'reply'])->name('comment.reply');
-        Route::delete('/delete', [App\Http\Controllers\CommentController::class, 'delete'])->name('comment.delete');
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\CommentController::class,'add'])->name('comment.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_COMMENT_ADD);
+        Route::post('/reply', [\App\Http\Controllers\CommentController::class,'reply'])->name('comment.reply')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_COMMENT_ADD);
+        Route::delete('/delete', [App\Http\Controllers\CommentController::class, 'delete'])->name('comment.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_COMMENT_DELETE);
     });
 
     Route::group(['prefix' => 'transactions'], function(){
-        Route::get('/', [App\Http\Controllers\TransactionController::class, 'index'])->name('transaction');
+        Route::get('/', [App\Http\Controllers\TransactionController::class, 'index'])->name('transaction')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW);
     });
 
     Route::group(['prefix' => 'reports'], function(){
-        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report');
+        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('report')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_REPORTS_VIEW);
     });
 
     Route::group(['prefix' => 'banners'], function(){
-        Route::get('/', [App\Http\Controllers\VideoSliderController::class, 'index'])->name('banner');
-        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\VideoSliderController::class,'create'])->name('banner.create');
-        Route::delete('/delete', [App\Http\Controllers\VideoSliderController::class, 'delete'])->name('banner.delete');
+        Route::get('/', [App\Http\Controllers\VideoSliderController::class, 'index'])->name('banner')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_BANNERS_VIEW);
+        Route::match(['get', 'post'], '/create', [\App\Http\Controllers\VideoSliderController::class,'create'])->name('banner.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_BANNER_ADD);
+        Route::delete('/delete', [App\Http\Controllers\VideoSliderController::class, 'delete'])->name('banner.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_BANNER_DELETE);
     });
 });

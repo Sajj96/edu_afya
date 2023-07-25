@@ -74,12 +74,17 @@ class RoleController extends Controller
 
         try {
             $role->name = strtolower($request->name);
-            if ($role->save() && count($request->permissions) > 0) {
+            if ($role->update() && count($request->permissions) > 0) {
                 $permissions =[];
                 foreach($request->permissions as $permission_name){
-                    $permissions[] = Permission::firstOrCreate([
-                        'name' => $permission_name
-                    ]);
+                    $permissions[] = Permission::updateOrCreate(
+                        [
+                            'name' => $permission_name
+                        ],
+                        [
+                            'name' => $permission_name
+                        ]
+                    );
                 }
                 $role->syncPermissions($permissions);
             }else {
@@ -90,7 +95,7 @@ class RoleController extends Controller
             return redirect('/roles')->withSuccess('Role edited successfully');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return back()->withError('An error has occurred failed to add a new role');
+            return back()->withError('An error has occurred failed to update role');
         }
     }
 

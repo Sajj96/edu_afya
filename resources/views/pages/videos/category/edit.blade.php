@@ -39,9 +39,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group local-forms">
-                                        <label>Image Url <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" value="{{ $category->image_url }}" name="image_url">
+                                    <div class="form-group local-top-form">
+                                        <label class="local-top">Image <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="file" accept="image/*" name="image" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">

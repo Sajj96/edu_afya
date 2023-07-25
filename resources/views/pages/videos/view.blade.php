@@ -68,6 +68,7 @@
                             </ul>
                         </div>
                     </article>
+                    @can(\App\Models\PermissionSet::PERMISSION_COMMENTS_VIEW)
                     <div class="widget blog-comments clearfix">
                         <h3>Comments</h3>
                         <div class="drop-scroll msg-list-scroll" id="msg_list">
@@ -173,6 +174,7 @@
                             </ul>
                         </div>
                     </div>
+                    @endcan
                 </div>
             </div>
             <aside class="col-md-4">
@@ -203,6 +205,7 @@
                     </ul>
                 </div>
             </aside>
+            @can(\App\Models\PermissionSet::PERMISSION_COMMENT_ADD)
             <div class="col-md-12">
                 <div class="widget new-comment clearfix">
                     <h3>Leave a Comment</h3>
@@ -238,6 +241,7 @@
                     </form>
                 </div>
             </div>
+            @endcan
         </div>
     </div>
 </div>
