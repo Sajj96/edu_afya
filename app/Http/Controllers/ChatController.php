@@ -66,6 +66,10 @@ class ChatController extends Controller
                     "doctorName" => $doctorName
                 );
 
+                usort($chats_list, function($a, $b){
+                    return $a['timestamp'] <=> $b['timestamp'];
+                });
+
                 foreach($chats_list as $key=>$chat){
                     if(!empty($chat['message']) && ($chat['senderID'] == request()->get('doctor') 
                             || $chat['receiverID'] == request()->get('doctor'))

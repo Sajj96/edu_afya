@@ -86,8 +86,8 @@
                 <div class="card chat-message-box">
                     <div class="card-body p-0">
                         <div class="chat-body" id="msg_list">
-                            @forelse($conversations as $key=>$msg)
                             <ul class="list-unstyled chat-message">
+                                @forelse($conversations as $key=>$msg)
                                 @if($msg['receiverID'] == $msg['client'])
                                 <li class="media d-flex received">
                                     <div class="media-body flex-grow-1">
@@ -114,12 +114,12 @@
                                     </div>
                                 </li>
                                 @endif
+                                @empty
+                                <li>
+                                    <img src="{{ asset('assets/img/no_message.png')}}" class="img-fluid call-imgs" alt="">
+                                </li>
+                                @endforelse
                             </ul>
-                            @empty
-                            <div>
-                                <img src="{{ asset('assets/img/no_message.png')}}" class="img-fluid call-imgs" alt="">
-                            </div>
-                            @endforelse
                         </div>
                     </div>
                 </div>
