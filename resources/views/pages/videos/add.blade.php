@@ -25,7 +25,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('video.create')}}" method="post">
+                        <form action="{{ route('video.create')}}" method="post"  enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-12">

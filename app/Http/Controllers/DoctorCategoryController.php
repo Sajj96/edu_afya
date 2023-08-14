@@ -110,8 +110,8 @@ class DoctorCategoryController extends Controller
                     return redirect()->back()->with('error', "Invalid file type only png, jpeg and jpg files are allowed.");
                 }
 
-                $img->save(storage_path('/app/public/doctor_category/' . $fileName), 90, 'jpg');
-                $fileLink = url('storage/doctor_category/' . $fileName);
+                $img->save('custom/doctor_category/' . $fileName, 90, 'jpg');
+                $fileLink = url('custom/doctor_category/' . $fileName);
             }
 
             $category = DoctorCategory::find($id);
