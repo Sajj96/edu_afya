@@ -148,8 +148,20 @@ class UserController extends Controller
     {
         try {
             $user = User::find($request->user_id);
-            Log::info($user);
+            $database = app('firebase.firestore');
+            $client_id = "";
+
+            $clients =  $database->database()->collection('clients');
+            $query = $clients->where('email', '=', $user->email);
+            $snapshot = $query->documents();
+            foreach($snapshot as $client) {
+                $client_id = $client->id();
+            }
+
+            Log::info("Deleted User ".$user);
+
             if($user->delete()) {
+                $database->database()->collection('clients')->document($client_id)->delete();
                 return redirect()->route('user')->with('success','User deleted successfully!');
             }
         } catch (\Exception $th) {
