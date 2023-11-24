@@ -5,15 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class UserSubscription extends Model
 {
     use HasFactory;
 
-    protected $table = 'user_doctor_subscriptions_tbl';
+    protected $table = 'user_subscriptions_tbl';
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function subscription()
+    {
+        return $this->belongsTo(Subscription::class);
     }
 
     public function getUserNameAttribute()
@@ -32,15 +37,10 @@ class Transaction extends Model
         return "Unknown";
     }
 
-    public function doctor()
+    public function getSubscriptionNameAttribute()
     {
-        return $this->belongsTo(Doctor::class);
-    }
-
-    public function getDoctorNameAttribute()
-    {
-        if($this->doctor){
-            return $this->doctor->name;
+        if($this->subscription){
+            return $this->subscription->name;
         }
         return "Unknown";
     }

@@ -49,13 +49,30 @@
                     </ul>
                 </li>
                 @endif
+                @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_CHAT_ADD) ||
+                auth()->user()->can(\App\Models\PermissionSet::PERMISSION_CHATS_VIEW))
                 <li>
                     <a href="{{ route('chat') }}" @if(\Request::is('chats') || \Request::is('chats/*') ) class="active" @endif><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-10.svg') }}" alt=""></span> <span>Chats</span></a>
                 </li>
-                <li>
-                    <a href="{{ route('transaction') }}" @if(\Request::is('transactions') || \Request::is('transactions/*') ) class="active" @endif><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-09.svg') }}" alt=""></span> <span>
-                            Transactions </span></a>
+                @endif
+                @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_ADD) ||
+                auth()->user()->can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW))
+                <li class="submenu">
+                    <a href="#"><span class="menu-side"><img src="{{ asset('assets/img/icons/menu-icon-09.svg') }}" alt=""></span>
+                        <span>Subscriptions </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_ADD)
+                        <li><a @if(\Request::is('subcriptions/plans') ) class="active" @endif href="{{ route('subscription') }}">Plans</a></li>
+                        @endcan
+                        @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW)
+                        <li><a @if(\Request::is('subcriptions/app') ) class="active" @endif href="{{ route('subscription.app') }}">App</a></li>
+                        @endcan
+                        @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW)
+                        <li><a @if(\Request::is('subcriptions/doctor') ) class="active" @endif href="{{ route('subscription.doctor') }}">Consultations</a></li>
+                        @endcan
+                    </ul>
                 </li>
+                @endif
                 @if(auth()->user()->can(\App\Models\PermissionSet::PERMISSION_ROLE_ADD) ||
                 auth()->user()->can(\App\Models\PermissionSet::PERMISSION_ROLES_VIEW))
                 <li class="submenu">

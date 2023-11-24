@@ -11,7 +11,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Videos</li>
+                        <li class="breadcrumb-item active">Subscription Plans</li>
                     </ul>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Videos List</h3>
+                                        <h3>Plans List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="add-group">
-                                                <a href="{{ route('video.create') }}" class="btn btn-primary add-pluss ms-2"><img src="{{ asset('assets/img/icons/plus.svg')}}" alt=""></a>
+                                                <a href="{{ route('subscription.add') }}" class="btn btn-primary add-pluss ms-2"><img src="{{ asset('assets/img/icons/plus.svg')}}" alt=""></a>
                                             </div>
                                         </div>
                                     </div>
@@ -42,42 +42,37 @@
                                     <tr>
                                         <th>SN</th>
                                         <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
+                                        <th>Period</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($videos as $key=>$video)
+                                    @foreach($plans as $key=>$plan)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td><a href="{{ route('video.details',$video->id) }}">{{ $video->name }}</a></td>
-                                        <td>{{ $video->category }}</td>
-                                        <td>
-                                            @if($video->status == 0)
-                                            <span class="custom-badge status-orange">Pending</span>
-                                            @else
-                                            <span class="custom-badge status-green">Published</span>
-                                            @endif
-                                        </td>
+                                        <td><a href="#">{{ $plan->name }}</a></td>
+                                        <td>{{ $plan->period }}</td>
+                                        <td>{{ number_format($plan->amount) }}</td>
+                                        <td>{{ $plan->type }}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="{{ route('video.details', $video->id)}}"><i class="fa-solid fa-eye m-r-5"></i> View</a>
-                                                    <a class="dropdown-item" href="{{ route('video.edit', $video->id)}}"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient-{{ $video->id }}"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+                                                    <a class="dropdown-item" href="{{ route('subscription.edit', $plan->id)}}"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient-{{ $plan->id }}"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
-                                                <div id="delete_patient-{{ $video->id }}" class="modal fade delete-modal" role="dialog">
+                                                <div id="delete_patient-{{ $plan->id }}" class="modal fade delete-modal" role="dialog">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
                                                             <div class="modal-body text-center">
                                                                 <img src="{{ asset('assets/img/sent.png')}}" alt="" width="50" height="46">
                                                                 <h3>Are you sure want to delete this ?</h3>
-                                                                <form id="delete-form-{{ $video->id }}" action="{{ route('video.delete') }}" method="POST">
+                                                                <form id="delete-form-{{ $plan->id }}" action="{{ route('subscription.delete') }}" method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <input type="hidden" name="video_id" value="{{ $video->id }}">
+                                                                    <input type="hidden" name="plan_id" value="{{ $plan->id }}">
                                                                     <div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
                                                                         <button type="submit" class="btn btn-danger">Delete</button>
                                                                     </div>

@@ -121,7 +121,7 @@ class DoctorCategoryController extends Controller
             $category->update();
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return back()->withError('Failed to create the doctor category');
+            return back()->withError('Failed to update the doctor category');
         }
 
         DB::commit();

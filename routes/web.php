@@ -83,8 +83,13 @@ Route::middleware(['auth'])->group(function ()
         Route::delete('/delete', [App\Http\Controllers\CommentController::class, 'delete'])->name('comment.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_COMMENT_DELETE);
     });
 
-    Route::group(['prefix' => 'transactions'], function(){
-        Route::get('/', [App\Http\Controllers\TransactionController::class, 'index'])->name('transaction')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW);
+    Route::group(['prefix' => 'subscriptions'], function(){
+        Route::get('/plans', [App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscription')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW);
+        Route::match(['get', 'post'], '/plans/create', [App\Http\Controllers\SubscriptionController::class, 'add'])->name('subscription.add')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_ADD);
+        Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\SubscriptionController::class,'edit'])->name('subscription.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_EDIT);
+        Route::delete('/delete', [App\Http\Controllers\SubscriptionController::class, 'delete'])->name('subscription.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_DELETE);
+        Route::get('/doctor', [App\Http\Controllers\TransactionController::class, 'index'])->name('subscription.doctor')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW);
+        Route::get('/app', [App\Http\Controllers\UserSubscriptionController::class, 'index'])->name('subscription.app')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW);
     });
 
     Route::group(['prefix' => 'reports'], function(){

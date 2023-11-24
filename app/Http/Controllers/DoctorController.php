@@ -95,6 +95,7 @@ class DoctorController extends Controller
                         "profession" => $doctor->profession,
                         "password" => $request->password,
                         "name" => $doctor->name,
+                        "phone_number" => $request->phone,
                         "hospital" => $doctor->hospital,
                         "bio" => $request->bio,
                         "email" => $doctor->email,

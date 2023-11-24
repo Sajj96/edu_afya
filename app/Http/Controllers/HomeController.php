@@ -6,6 +6,7 @@ use App\Models\Doctor;
 use App\Models\DoctorCategory;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserSubscription;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,34 +42,20 @@ class HomeController extends Controller
                     ->get()
                     ->toArray();
 
-        $subscriptions = Transaction::select(DB::raw("(COUNT(*)) as count"), DB::raw("DAYNAME(created_at) as dayname"))
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->whereYear('created_at', date('Y'))
-            ->where('payments_category', 'Subscription')
+        $earnings = UserSubscription::sum('amount');
+
+        $subscriptions = Transaction::select(DB::raw("(COUNT(*)) as count"), DB::raw("DAYNAME(created_date) as dayname"))
+            ->whereBetween('created_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->whereYear('created_date', date('Y'))
             ->groupBy('dayname')
             ->get()
             ->toArray();
         $subscription_data = array(0,0,0,0,0,0,0);
-
-        $consultations = Transaction::select(DB::raw("(COUNT(*)) as count"), DB::raw("DAYNAME(created_at) as dayname"))
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->whereYear('created_at', date('Y'))
-            ->where('payments_category', 'Consultation')
-            ->groupBy('dayname')
-            ->get()
-            ->toArray();
-        $consultation_data = array(0,0,0,0,0,0,0);
         
         foreach($subscriptions as $key=>$subscription) {
             $replace = array($key => $subscription['count']);
 
             $subscription_data = array_replace($subscription_data, $replace);
-        }
-
-        foreach($consultations as $key=>$consultation) {
-            $replacements = array($key => $consultation['count']);
-
-            $consultation_data = array_replace($consultation_data, $replacements);
         }
 
         $doctor_categories = DB::table('doctorscategory_tbl')
@@ -86,6 +73,6 @@ class HomeController extends Controller
             array_push($category_occurrence, $values->count);
         }
 
-        return view('pages.dashboard', compact('doctors','users','videos','subscription_data','consultation_data','category_occurrence','category','subscriptions','new_users'));
+        return view('pages.dashboard', compact('doctors','users','videos','subscription_data','category_occurrence','category','subscriptions','new_users','earnings'));
     }
 }

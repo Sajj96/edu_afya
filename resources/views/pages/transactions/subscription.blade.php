@@ -11,7 +11,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Doctor Consultations</li>
+                        <li class="breadcrumb-item active">App Subscriptions</li>
                     </ul>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Consultations List</h3>
+                                        <h3>Subscriptions List</h3>
                                     </div>
                                 </div>
                             </div>
@@ -38,32 +38,38 @@
                                         <th>SN</th>
                                         <th>Customer Name</th>
                                         <th>Customer Phone</th>
-                                        <th>Doctor Name</th>
+                                        <th>Plan</th>
                                         <th>Amount</th>
                                         <th>Payment Status</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($transactions as $key=>$transaction)
+                                    @foreach($subscriptions as $key=>$subscription)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td><a href="#">{{ $transaction->userName }}</a></td>
-                                        <td>{{ $transaction->userPhone }}</td>
-                                        <td>{{ $transaction->doctorName }}</td>
-                                        <td>{{ number_format($transaction->price) }}</td>
+                                        <td><a href="#">{{ $subscription->userName }}</a></td>
+                                        <td>{{ $subscription->userPhone }}</td>
+                                        <td>{{ $subscription->subscriptionName }}</td>
+                                        <td>{{ number_format($subscription->price) }}</td>
                                         <td>
-                                            @if($transaction->payments_status == 0)
+                                            @if($subscription->payments_status == 0)
                                             <span class="custom-badge status-orange">Pending</span>
                                             @else
                                             <span class="custom-badge status-green">Paid</span>
                                             @endif
                                         </td>
                                         <td>
-                                            @if($transaction->isActive)
+                                            @if($subscription->isActive)
                                             <span class="custom-badge status-green">Active</span>
                                             @else
                                             <span class="custom-badge status-red">Expired</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-end">
+                                            @if(!$subscription->isActive)
+                                            <a href="#" class="btn btn-success add-pluss ms-2">Activate</a>
                                             @endif
                                         </td>
                                     </tr>

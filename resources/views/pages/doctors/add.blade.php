@@ -32,7 +32,7 @@
                                         <h4>Doctor Details</h4>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-12 col-xl-12">
                                     <div class="form-group local-forms">
                                         <label>Name <span class="login-danger">*</span></label>
                                         <input class="form-control" type="text" name="name" placeholder="" required value="{{ old('name') }}">
@@ -42,6 +42,12 @@
                                     <div class="form-group local-forms">
                                         <label>Email <span class="login-danger">*</span></label>
                                         <input class="form-control" type="email" name="email" placeholder="" value="{{ old('email') }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Phone <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" name="phone" placeholder="" value="{{ old('phone') }}" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">

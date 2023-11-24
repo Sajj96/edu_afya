@@ -114,32 +114,14 @@ $hours = 'Good night';
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Earnings</h4>
-                        <h2>Tshs <span class="counter-up"> 20,250</span></h2>
-                        <p><span class="passive-view">This week</p>
+                        <h2>Tshs <span class="counter-up"> {{ number_format($earnings) }}</span></h2>
+                        <p><span class="passive-view">Overall</p>
                     </div>
                 </div>
             </div>
             @endcan
         </div>
         <div class="row">
-            @can(\App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW)
-            <div class="col-12 col-md-12 col-lg-6 col-xl-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="chart-title patient-visit">
-                            <h4>Consultation &amp; Subscription Chart</h4>
-                            <div>
-                                <ul class="nav chat-user-total">
-                                    <li><i class="fa fa-circle low-users" aria-hidden="true"></i>Consultation</li>
-                                    <li><i class="fa fa-circle current-users" aria-hidden="true"></i>Subscription</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div id="payment-chart"></div>
-                    </div>
-                </div>
-            </div>
-            @endcan
             @can(\App\Models\PermissionSet::PERMISSION_DOCTORS_VIEW)
             <div class="col-12 col-md-12 col-lg-6 col-xl-4 d-flex">
                 <div class="card">
@@ -160,7 +142,6 @@ $hours = 'Good night';
 @section('page-scripts')
 <script>
     var subscriptions = <?php echo json_encode($subscription_data); ?>;
-    var consultations = <?php echo json_encode($consultation_data); ?>;
     var category = <?php echo json_encode($category); ?>;
     var occurrence = <?php echo json_encode($category_occurrence); ?>;
 
@@ -199,11 +180,6 @@ $hours = 'Good night';
                 colors: ["transparent"]
             },
             series: [{
-                    name: "Consultation",
-                    color: "#D5D7ED",
-                    data: consultations,
-                },
-                {
                     name: "Subscription",
                     color: "#bf1e2e",
                     data: subscriptions,

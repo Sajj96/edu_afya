@@ -77,8 +77,8 @@
                                         <td>{{ $banner->description }}</td>
                                         <td><a href="{{ $banner->image_url }}">{{ substr($banner->image_url, strrpos($banner->image_url, '/') + 1) }}</a></td>
                                         <td class="text-end">
-                                            <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                            <div id="delete_patient" class="modal fade delete-modal" role="dialog">
+                                            <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient-{{ $banner->id }}"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
+                                            <div id="delete_patient-{{ $banner->id }}" class="modal fade delete-modal" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-body text-center">
