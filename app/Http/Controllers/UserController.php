@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,19 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index($week = null)
     {
-        $users = User::lazy();
+        $users = User::orderByDesc('id');
+
+        if(!empty($week)) {
+            $users = $users->select('*', DB::raw("(COUNT(*)) as count"), DB::raw("DAYNAME(created_at) as dayname"))
+                ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->whereYear('created_at', date('Y'))
+                ->groupBy('dayname');
+        }
+
+        $users = $users->get();
+
         return view('pages.users.index', compact('users'));
     }
 

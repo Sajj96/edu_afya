@@ -80,30 +80,34 @@ $hours = 'Good night';
         <div class="row">
             @can(\App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW)
             <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <img src="{{ asset('assets/img/icons/menu-icon-09.svg') }}" alt="">
+                <a href="{{ route('subscription.doctor', 'week') }}">
+                    <div class="dash-widget">
+                        <div class="dash-boxs comman-flex-center">
+                            <img src="{{ asset('assets/img/icons/menu-icon-09.svg') }}" alt="">
+                        </div>
+                        <div class="dash-content dash-count">
+                            <h4>New Subscriptions</h4>
+                            <h2><span class="counter-up">{{ array_sum($subscription_data) }}</span></h2>
+                            <p><span class="passive-view">This week</p>
+                        </div>
                     </div>
-                    <div class="dash-content dash-count">
-                        <h4>New Subscriptions</h4>
-                        <h2><span class="counter-up">{{ array_sum($subscription_data) }}</span></h2>
-                        <p><span class="passive-view">This week</p>
-                    </div>
-                </div>
+                </a>
             </div>
             @endcan
             @can(\App\Models\PermissionSet::PERMISSION_USERS_VIEW)
             <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-                <div class="dash-widget">
-                    <div class="dash-boxs comman-flex-center">
-                        <img src="{{ asset('assets/img/icons/profile-add.svg')}}" alt="">
+                <a href="{{ route('user', 'week') }}">
+                    <div class="dash-widget">
+                        <div class="dash-boxs comman-flex-center">
+                            <img src="{{ asset('assets/img/icons/profile-add.svg')}}" alt="">
+                        </div>
+                        <div class="dash-content dash-count">
+                            <h4>New Users</h4>
+                            <h2><span class="counter-up">{{ count($new_users)}}</span></h2>
+                            <p><span class="passive-view">This week</p>
+                        </div>
                     </div>
-                    <div class="dash-content dash-count">
-                        <h4>New Users</h4>
-                        <h2><span class="counter-up">{{ count($new_users)}}</span></h2>
-                        <p><span class="passive-view">This week</p>
-                    </div>
-                </div>
+                </a>
             </div>
             @endcan
             @can(\App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW)

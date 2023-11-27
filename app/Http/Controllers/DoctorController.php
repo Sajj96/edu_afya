@@ -14,7 +14,7 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::lazy();
+        $doctors = Doctor::orderByDesc('id')->get();
         return view('pages.doctors.index', compact('doctors'));
     }
 

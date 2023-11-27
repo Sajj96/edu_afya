@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::lazy();
+        $categories = Category::orderByDesc('id')->get();
         return view('pages.videos.category.index', compact('categories'));
     }
 

@@ -62,13 +62,13 @@
                         <span>Subscriptions </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_ADD)
-                        <li><a @if(\Request::is('subcriptions/plans') ) class="active" @endif href="{{ route('subscription') }}">Plans</a></li>
+                        <li><a @if(\Request::is('plans') ) class="active" @endif href="{{ route('subscription') }}">Plans</a></li>
                         @endcan
                         @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW)
-                        <li><a @if(\Request::is('subcriptions/app') ) class="active" @endif href="{{ route('subscription.app') }}">App</a></li>
+                        <li><a @if(\Request::is('app') ) class="active" @endif href="{{ route('subscription.app') }}">App</a></li>
                         @endcan
                         @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW)
-                        <li><a @if(\Request::is('subcriptions/doctor') ) class="active" @endif href="{{ route('subscription.doctor') }}">Consultations</a></li>
+                        <li><a @if(\Request::is('doctor') ) class="active" @endif href="{{ route('subscription.doctor') }}">Consultations</a></li>
                         @endcan
                     </ul>
                 </li>

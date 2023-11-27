@@ -9,7 +9,7 @@ class UserSubscriptionController extends Controller
 {
     public function index()
     {
-        $subscriptions = UserSubscription::lazy();
+        $subscriptions = UserSubscription::orderByDesc('id')->get();
         return view('pages.transactions.subscription', compact('subscriptions'));
     }
 }

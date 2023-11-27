@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function ()
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::group(['prefix' => 'users'], function(){
-        Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USERS_VIEW);
+        Route::get('/{week?}', [App\Http\Controllers\UserController::class, 'index'])->name('user')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USERS_VIEW);
         Route::get('/view/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.details')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USERS_VIEW);
         Route::match(['get', 'post'], '/create', [\App\Http\Controllers\UserController::class,'add'])->name('user.create')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USER_ADD);
         Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\UserController::class,'edit'])->name('user.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_USER_EDIT);
@@ -85,11 +85,11 @@ Route::middleware(['auth'])->group(function ()
 
     Route::group(['prefix' => 'subscriptions'], function(){
         Route::get('/plans', [App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscription')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW);
+        Route::get('/doctor/{week?}', [App\Http\Controllers\TransactionController::class, 'index'])->name('subscription.doctor')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW);
+        Route::get('/app', [App\Http\Controllers\UserSubscriptionController::class, 'index'])->name('subscription.app')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW);
         Route::match(['get', 'post'], '/plans/create', [App\Http\Controllers\SubscriptionController::class, 'add'])->name('subscription.add')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_ADD);
         Route::match(['get', 'post'], '/edit/{id?}', [\App\Http\Controllers\SubscriptionController::class,'edit'])->name('subscription.edit')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_EDIT);
         Route::delete('/delete', [App\Http\Controllers\SubscriptionController::class, 'delete'])->name('subscription.delete')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTION_DELETE);
-        Route::get('/doctor', [App\Http\Controllers\TransactionController::class, 'index'])->name('subscription.doctor')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_TRANSACTIONS_VIEW);
-        Route::get('/app', [App\Http\Controllers\UserSubscriptionController::class, 'index'])->name('subscription.app')->middleware("permission:" . \App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW);
     });
 
     Route::group(['prefix' => 'reports'], function(){

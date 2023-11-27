@@ -10,7 +10,7 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        $plans = Subscription::all();
+        $plans = Subscription::orderByDesc('id')->get();
         return view('pages.transactions.plans.index', ['plans' => $plans]);
     }
 

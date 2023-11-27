@@ -15,7 +15,7 @@ class VideoController extends Controller
 {
     public function index()
     {
-        $videos = Video::lazy();
+        $videos = Video::orderByDesc('id')->get();
         return view('pages.videos.index', compact('videos'));
     }
 
