@@ -85,19 +85,25 @@
                                     </div>
                                     <div class="personal-list-out">
                                         <div class="row">
-                                            <div class="col-xl-4 col-md-6">
+                                            <div class="col-xl-3 col-md-6">
                                                 <div class="detail-personal">
                                                     <h2>Full Name</h2>
                                                     <h3>{{ ucwords($doctor->name) }}</h3>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-md-6">
+                                            <div class="col-xl-3 col-md-6">
                                                 <div class="detail-personal">
                                                     <h2>Email</h2>
                                                     <h3><a href="mailto:{{ $doctor->email }}">{{ $doctor->email }}</a></h3>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-md-6">
+                                            <div class="col-xl-3 col-md-6">
+                                                <div class="detail-personal">
+                                                    <h2>Phone</h2>
+                                                    <h3>{{ $doctor->phonenumber }}</h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6">
                                                 <div class="detail-personal">
                                                     <h2>Hospital</h2>
                                                     <h3>{{ ucwords($doctor->hospital) }}</h3>

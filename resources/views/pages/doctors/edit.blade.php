@@ -42,13 +42,19 @@
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Email <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email" name="email" placeholder="" value="{{ $doctor->email }}" required>
+                                        <input class="form-control" type="email" name="email" placeholder="" value="{{ $doctor->email }}" required readonly>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Phone <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" name="phone" placeholder="" value="{{ old('phone') }}" required>
+                                        <input class="form-control" type="text" name="phone" placeholder="" value="{{ $doctor->phonenumber }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>New Password (optional)</label>
+                                        <input class="form-control" type="password" name="password" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
@@ -63,7 +69,7 @@
                                         <input class="form-control" type="text" name="profession" placeholder="" value="{{ $doctor->profession }}" required>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-4 col-xl-4">
+                                <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Category <span class="login-danger">*</span></label>
                                         <select class="form-control select" name="category">
@@ -74,7 +80,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-4 col-xl-4">
+                                <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Type <span class="login-danger">*</span></label>
                                         <select class="form-control select" name="type">
@@ -84,7 +90,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-4 col-xl-4">
+                                <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Consultation Fee <span class="login-danger">*</span></label>
                                         <input class="form-control" type="number" name="fee" placeholder="" value="{{ $doctor->consultation_fee }}" required>
@@ -99,10 +105,7 @@
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-top-form">
                                         <label class="local-top">Photo <span class="login-danger">*</span></label>
-                                        <div class="settings-btn upload-files-avator">
-                                            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" class="hide-input">
-                                            <label for="file" class="upload">Choose File</label>
-                                        </div>
+                                        <input class="form-control" type="file" accept="image/*" name="image">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
@@ -122,7 +125,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
-                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
+                                        <button type="submit" class="btn btn-primary submit-form me-2">Save Changes</button>
                                         <button type="reset" class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>

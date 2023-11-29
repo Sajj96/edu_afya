@@ -68,7 +68,7 @@
                         <li><a @if(\Request::is('app') ) class="active" @endif href="{{ route('subscription.app') }}">App</a></li>
                         @endcan
                         @can(\App\Models\PermissionSet::PERMISSION_SUBSCRIPTIONS_VIEW)
-                        <li><a @if(\Request::is('doctor') ) class="active" @endif href="{{ route('subscription.doctor') }}">Consultations</a></li>
+                        <li><a @if(\Request::is('doctor') ) class="active" @endif href="{{ route('subscription.doctor') }}">Doctors</a></li>
                         @endcan
                     </ul>
                 </li>

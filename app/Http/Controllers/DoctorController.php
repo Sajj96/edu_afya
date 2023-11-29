@@ -52,7 +52,8 @@ class DoctorController extends Controller
                     File::makeDirectory($path, $mode = 0777, true, true);
                 }
 
-                $database = app('firebase.firestore');
+                $firestore = app('firebase.firestore');
+                $fileLink = "https://";
 
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
@@ -92,8 +93,8 @@ class DoctorController extends Controller
                 $doctor->doctor_type = $request->type;
 
                 if ($doctor->save()) {
-                    $doctors =  $database->database()->collection('Doctors')->newDocument();
-                    $doctors->set([
+                    $user =  $firestore->database()->collection('Doctors')->newDocument();
+                    $user->set([
                         "profession" => $doctor->profession,
                         "password" => $request->password,
                         "name" => $doctor->name,
@@ -175,7 +176,44 @@ class DoctorController extends Controller
                 $doctor->consultation_fee = $request->fee;
                 $doctor->phonenumber = $request->phone;
                 $doctor->doctor_type = $request->type;
-                $doctor->update();
+                if($request->has('password') && $request->password != null) {
+                    $doctor->password   = Hash::make($request->password);
+                }
+                if($doctor->update()) {
+                    $collection = Doctor::firestoreCollection();
+
+                    $collection->document($doctor->firestoreId)->update([
+                        [
+                            "path" => "profession",
+                            "value" => $request->profession
+                        ],
+                        [
+                            "path" => "password",
+                            "value" => $request->password
+                        ],
+                        [
+                            "path" => "name",
+                            "value" => $request->name
+                        ],
+                        [
+                            "path" => "phone_number",
+                            "value" => $request->phone
+                        ],
+                        [
+                            "path" => "hospital",
+                            "value" => $request->hospital
+                        ],
+                        [
+                            "path" => "bio",
+                            "value" => $request->bio
+                        ],
+                        [
+                            "path" => "email",
+                            "value" => $request->email
+                        ]
+                    ]);
+            
+                }
             } else {
                 return back()->withError('Doctor does not exist');
             }
@@ -186,13 +224,16 @@ class DoctorController extends Controller
 
         DB::commit();
         Log::info("Updated a doctor");
-        return redirect('/doctors')->withSuccess('Doctor created successfully');
+        return redirect('/doctors')->withSuccess('Doctor updated successfully');
     }
 
     public function delete(Request $request)
     {
         try {
             $doctor = Doctor::find((int) $request->doctor_id);
+            $collection = Doctor::firestoreCollection();
+
+            $collection->document($doctor->firestoreId)->delete();
             if ($doctor->delete()) {
                 Log::info($doctor);
                 return redirect()->route('doctor')->with('success', 'Doctor deleted successfully!');

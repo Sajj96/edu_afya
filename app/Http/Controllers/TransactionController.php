@@ -14,10 +14,9 @@ class TransactionController extends Controller
         $transactions = Transaction::orderByDesc('id');
 
         if(!empty($week)) {
-            $transactions = $transactions->select('*',DB::raw("(COUNT(*)) as count"), DB::raw("DAYNAME(created_date) as dayname"))
+            $transactions = $transactions->select('*',DB::raw("DAYNAME(created_date) as dayname"))
                         ->whereBetween('created_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                        ->whereYear('created_date', date('Y'))
-                        ->groupBy('dayname');
+                        ->whereYear('created_date', date('Y'));
         }
 
         $transactions = $transactions->get();

@@ -11,7 +11,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard </a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Doctor Consultations</li>
+                        <li class="breadcrumb-item active">Doctor Subscriptions</li>
                     </ul>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Consultations List</h3>
+                                        <h3>Subscriptions List</h3>
                                     </div>
                                 </div>
                             </div>
