@@ -52,7 +52,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td><a href="{{ $category->image_url }}">{{ substr($category->image_url, strrpos($category->image_url, '/') + 1)   }}</a></td>
+                                        <td><a href="{{ $category->image_url }}">{{ $category->name }}</a></td>
                                         <td>
                                             @if($category->status == 0)
                                             <span class="custom-badge status-orange">Pending</span>

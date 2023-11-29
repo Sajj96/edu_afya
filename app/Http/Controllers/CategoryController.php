@@ -46,7 +46,7 @@ class CategoryController extends Controller
                 $img = Image::make($image->getRealPath());
                 $img->resize(160, 160);
 
-                $generated = $request->name ."_". date("Ymd") . "_IMG";
+                $generated = uniqid() . "_" . time() . date("Ymd") . "_IMG";
 
                 if ($extension == "png") {
                     $fileName = $generated . ".png";
@@ -99,7 +99,7 @@ class CategoryController extends Controller
                 $img = Image::make($image->getRealPath());
                 $img->resize(160, 160);
 
-                $generated = $request->name ."_". date("Ymd") . "_IMG";
+                $generated = uniqid() . "_" . time() . date("Ymd") . "_IMG";
 
                 if ($extension == "png") {
                     $fileName = $generated . ".png";
