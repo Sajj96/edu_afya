@@ -88,6 +88,8 @@ class DoctorController extends Controller
                 $doctor->bio = $request->bio;
                 $doctor->status = $request->status;
                 $doctor->consultation_fee = $request->fee;
+                $doctor->phonenumber = $request->phone;
+                $doctor->doctor_type = $request->type;
 
                 if ($doctor->save()) {
                     $doctors =  $database->database()->collection('Doctors')->newDocument();
@@ -171,6 +173,8 @@ class DoctorController extends Controller
                 $doctor->bio = $request->bio;
                 $doctor->status = $request->status;
                 $doctor->consultation_fee = $request->fee;
+                $doctor->phonenumber = $request->phone;
+                $doctor->doctor_type = $request->type;
                 $doctor->update();
             } else {
                 return back()->withError('Doctor does not exist');

@@ -32,7 +32,7 @@
                                         <h4>Doctor Details</h4>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-12 col-xl-12">
                                     <div class="form-group local-forms">
                                         <label>Name <span class="login-danger">*</span></label>
                                         <input class="form-control" type="text" name="name" placeholder="" required value="{{ $doctor->name }}">
@@ -47,6 +47,12 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="form-group local-forms">
+                                        <label>Phone <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" name="phone" placeholder="" value="{{ old('phone') }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
                                         <label>Hospital <span class="login-danger">*</span></label>
                                         <input class="form-control" type="text" name="hospital" placeholder="" value="{{ $doctor->hospital }}" required>
                                     </div>
@@ -57,7 +63,7 @@
                                         <input class="form-control" type="text" name="profession" placeholder="" value="{{ $doctor->profession }}" required>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-4 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Category <span class="login-danger">*</span></label>
                                         <select class="form-control select" name="category">
@@ -68,7 +74,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Type <span class="login-danger">*</span></label>
+                                        <select class="form-control select" name="type">
+                                            <option value="">{{ __('Please select')}}</option>
+                                            <option {{ $doctor->doctor_type == "General Practitioners (GP)" ? 'selected' : '' }} value="General Practitioners (GP)">General Practitioners (GP)</option>
+                                            <option {{ $doctor->doctor_type == "Specialists" ? 'selected' : '' }} value="Specialists">Specialists</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Consultation Fee <span class="login-danger">*</span></label>
                                         <input class="form-control" type="number" name="fee" placeholder="" value="{{ $doctor->consultation_fee }}" required>

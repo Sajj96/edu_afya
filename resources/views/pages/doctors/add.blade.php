@@ -74,7 +74,7 @@
                                         <input class="form-control" type="text" name="profession" placeholder="" value="{{ old('profession') }}" required>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-4 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Category <span class="login-danger">*</span></label>
                                         <select class="form-control select" name="category">
@@ -85,7 +85,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Type <span class="login-danger">*</span></label>
+                                        <select class="form-control select" name="type">
+                                            <option value="">{{ __('Please select')}}</option>
+                                            <option value="General Practitioners (GP)">General Practitioners (GP)</option>
+                                            <option value="Specialists">Specialists</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Consultation Fee <span class="login-danger">*</span></label>
                                         <input class="form-control" type="number" name="fee" placeholder="" value="{{ old('fee') }}" required>
